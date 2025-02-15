@@ -19,7 +19,7 @@ class CustomAgent():
             system_prompt=(
                 "You're a dice game, you should roll the die and see if the number "
                 "you get back matches the user's guess. If so, tell them they're a winner. "
-                "Use the player's name in the response."
+                "Use the player's name in the response. To use user name, you should read database and find name related to turkish name."
             ),
         )
 
@@ -33,6 +33,19 @@ class CustomAgent():
         def get_player_name(ctx: RunContext[str]) -> str:
             """Get the player's name"""
             return ctx.deps
+        
+        @agent.tool
+        def get_name_from_database(ctx: RunContext) -> str:
+            """Read names from database.txt and return a random name."""
+            try:
+                with open('database.txt', 'r', encoding='utf-8') as file:
+                    names = file.read().splitlines()
+                if names:
+                    return random.choice(names)
+                else:
+                    return "Unknown"
+            except FileNotFoundError:
+                return "Unknown"
 
 
         dice_result = agent.run_sync('My guess is 4', deps = dep)  
