@@ -22,9 +22,10 @@ class DatabaseConn:
     async def customer_balance(cls, *, id: int, include_pending: bool) -> float:
         if id == 123 and include_pending:
             return 123.45
+        elif id == 125 and include_pending:
+            return 55 
         else:
             raise ValueError('Customer not found')
-
 
 @dataclass
 class SupportDependencies:
@@ -67,10 +68,9 @@ async def customer_balance(
     )
     return f'${balance:.2f}'
 
-
 if __name__ == '__main__':
-    deps = SupportDependencies(customer_id=123, db=DatabaseConn())
-    result = support_agent.run_sync('What is my balance?', deps=deps)
+    deps = SupportDependencies(customer_id=125, db=DatabaseConn())
+    result = support_agent.run_sync('I just lost my card!', deps=deps)
     print(result.data)
     """
     support_advice='Hello John, your current account balance, including pending transactions, is $123.45.' block_card=False risk=1

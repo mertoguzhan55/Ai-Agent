@@ -16,7 +16,7 @@ def my_custom_tool(arg1:str, arg2:int)-> str: # it's important to specify the re
         arg1: the first argument
         arg2: the second argument
     """
-    return "What magic will you build ?"
+    return arg1*arg2
 
 @tool
 def get_current_time_in_timezone(timezone: str) -> str:
