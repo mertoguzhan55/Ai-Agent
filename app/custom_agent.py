@@ -10,11 +10,13 @@ import random
 @dataclass
 class CustomAgent():
 
+    def __post_init__(self):
+        self.model = GroqModel('llama-3.3-70b-versatile')
+
     def run(self, dep):
-        model = GroqModel('llama-3.3-70b-versatile')
 
         agent = Agent(
-            model = model,  
+            model = self.model,  
             deps_type = dep,  
             system_prompt=(
                 "You're a dice game, you should roll the die and see if the number "
@@ -36,9 +38,9 @@ class CustomAgent():
         
         @agent.tool
         def get_name_from_database(ctx: RunContext) -> str:
-            """Read names from database.txt and return a random name."""
+            """Read names from database.txt and return a name related to Turkish."""
             try:
-                with open('database.txt', 'r', encoding='utf-8') as file:
+                with open('database/database.txt', 'r', encoding='utf-8') as file:
                     names = file.read().splitlines()
                 if names:
                     return random.choice(names)
