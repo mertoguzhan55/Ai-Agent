@@ -20,7 +20,7 @@ class CustomAgent():
             model = self.model,  
             deps_type = dep,  
             system_prompt=(
-                "You are an AI assistant integrated with the Trendyol API, designed to assist users in retrieving and processing e-commerce-related data. Your primary function is to understand user queries and call the appropriate API endpoints to fetch relevant information."
+                "You are an AI assistant integrated with various website APIs, designed to assist users in retrieving and processing data from different online platforms. Your primary function is to understand user queries, determine the appropriate API endpoints, and fetch the relevant information efficiently. You can interact with e-commerce, social media, finance, weather, and other website APIs to provide real-time and accurate responses. Ensure that the data is well-structured, relevant, and easy to understand for the user."
             ),
         )
 
@@ -48,7 +48,7 @@ class CustomAgent():
                 return "Unknown"
             
         @agent.tool
-        def get_product_categories(self):
+        def get_product_categories_from_trendyol(self):
             """
             Retrieves the list of product categories from the Trendyol API and returns the name of the first category.
 
@@ -67,6 +67,10 @@ class CustomAgent():
             else:
                 print(f"Hata! HTTP Durum Kodu: {response.status_code}")
             return data["categories"][0]["name"]
+        
+        @agent.tool
+        def get_product_categories_from_sahibinden(self):
+            pass
 
 
         prompt = input("Haydi sor sor!\n")
