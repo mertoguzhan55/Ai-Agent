@@ -1,3 +1,7 @@
 /extras
 /database
-/app/__pycache__/
+# caches
+*.pyc
+__pycache__
+*.log
+.pytest_cache
