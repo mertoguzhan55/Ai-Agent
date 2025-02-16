@@ -5,6 +5,7 @@ from typing import Dict, List, Optional, Union
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.models.groq import GroqModel
 import random
+import requests
 
 
 @dataclass
@@ -19,9 +20,7 @@ class CustomAgent():
             model = self.model,  
             deps_type = dep,  
             system_prompt=(
-                "You're a dice game, you should roll the die and see if the number "
-                "you get back matches the user's guess. If so, tell them they're a winner. "
-                "Use the player's name in the response. To use user name, you should read database and find name related to turkish name."
+                "You are an AI assistant integrated with the Trendyol API, designed to assist users in retrieving and processing e-commerce-related data. Your primary function is to understand user queries and call the appropriate API endpoints to fetch relevant information."
             ),
         )
 
@@ -29,7 +28,6 @@ class CustomAgent():
         def roll_die() -> str:
             """Roll a six-sided die and return the result."""
             return str(random.randint(1, 6))
-
 
         @agent.tool  
         def get_player_name(ctx: RunContext[str]) -> str:
@@ -48,11 +46,33 @@ class CustomAgent():
                     return "Unknown"
             except FileNotFoundError:
                 return "Unknown"
+            
+        @agent.tool
+        def get_product_categories(self):
+            """
+            Retrieves the list of product categories from the Trendyol API and returns the name of the first category.
+
+            This function sends a GET request to the Trendyol product categories endpoint 
+            and retrieves the available product categories in JSON format. If the request 
+            is successful, it extracts and returns the name of the first category in the response. 
+            Otherwise, it prints an error message with the HTTP status code.
+
+            """
+            url = "https://apigw.trendyol.com/integration/product/product-categories"
+
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                data = response.json()
+            else:
+                print(f"Hata! HTTP Durum Kodu: {response.status_code}")
+            return data["categories"][0]["name"]
 
 
-        dice_result = agent.run_sync('My guess is 4', deps = dep)  
+        prompt = input("Haydi sor sor!\n")
+        dice_result = agent.run_sync(str(prompt), deps = dep)  
         print(dice_result.data)
-        #> Congratulations Anne, you guessed correctly! You're a winner!
+        # bana trendyoldaki kategorileri söyler misin?
 
 
 if __name__ == "__main__":
