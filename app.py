@@ -2,7 +2,7 @@ from app.dependency import Dependency
 from app.custom_agent import CustomAgent
 
 def main():
-    dep = Dependency("Mert", 25)
+    dep = Dependency("Halit", 25)
     agent = CustomAgent()
     agent.run(dep)
 
