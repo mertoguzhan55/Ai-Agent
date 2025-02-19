@@ -1,0 +1,9 @@
+[project]
+    name = "Agent Repository"
+    description = "Agent Repository"
+    company = "Oguzhan"
+    author = "Mert Oğuzhan"
+
+[logger]
+    filepath="./logs/agent_repository.log"
+    rotation="50MB"
