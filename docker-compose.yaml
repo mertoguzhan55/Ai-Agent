@@ -1,17 +1,40 @@
 version: "3.3"
 services:
+  aiagent:
+    restart: always
+    container_name: aiagent-container
+    ports:
+      - "5555:5555"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: aiagent
+    volumes:
+      - ./configs:/app/configs
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+    environment:
+      TZ: "Europe/Istanbul"
+      DISPLAY: $DISPLAY
+      CONFIG_FILE: local
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
   postgres:
     image: postgres
     container_name: postgres-container
     restart: always
     environment:
-      POSTGRES_USER: 
-      POSTGRES_PASSWORD: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: manisaliEssek45?
       POSTGRES_DB: database1
     ports: 
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - /home/mert/postgres_data:/var/lib/postgresql/data
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin-container
@@ -19,8 +42,5 @@ services:
     ports:
       - "8888:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: 
-      PGADMIN_DEFAULT_PASSWORD: 
-
-volumes:
-  postgres-data:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: manisaliEssek45?
