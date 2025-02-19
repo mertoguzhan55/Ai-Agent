@@ -28,7 +28,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: manisaliEssek45?
+      POSTGRES_PASSWORD: 
       POSTGRES_DB: database1
     ports: 
       - "5432:5432"
@@ -42,5 +42,5 @@ services:
     ports:
       - "8888:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: manisaliEssek45?
+      PGADMIN_DEFAULT_EMAIL:
+      PGADMIN_DEFAULT_PASSWORD: 
