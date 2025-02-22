@@ -9,8 +9,8 @@ def main(args, configs):
     logger.debug("############ MODEL TRAINING CONFIGURATIONS ############")
     logger.debug(configs)
 
-    dep = Dependency("Halit", 25)
-    agent = CustomAgent()
+    dep = Dependency("ai agent")
+    agent = CustomAgent(logger=logger)
     agent.run(dep)
 
 

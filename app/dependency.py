@@ -2,8 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Dependency():
-    name:str
-    age:int
+    job:str
 
 
 if __name__ == "__main__":
